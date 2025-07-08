@@ -19,10 +19,16 @@ This will download the GRCh38 reference genome, place it in the `ref` directory,
 
 ## Usage
 
-To perform a protein-guided reverse annotation, run the `transvar` target, passing the protein variant (p.change) in HGVS format as input. For example:
+To perform a protein-level reverse annotation, run the `transvar` target, passing the protein variant (p.change) in HGVS format as input.
+
+For example:
 
 ```bash
 make transvar VAR=DHODH:p.G152R
+```
+
+```bash
+make transvar VAR=NM_006218.2:p.E545K
 ```
 
 ## Example
