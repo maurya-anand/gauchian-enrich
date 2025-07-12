@@ -1,57 +1,44 @@
-# transvar-enrich
+# Gauchian-enrich
 
-This repository contains a Makefile that simplifies the setup and execution of TransVar for reverse annotation of protein variants (p.change to g.change).
+This repository contains a command-line utility to annotate the .tsv file output from [Illumina/Gauchian](https://github.com/Illumina/Gauchian) tool.
 
 ## Prerequisites
 
 - Docker
-- make
 
 ## Setup
 
-To download the necessary reference genome and prepare it for TransVar, run:
-
 ```bash
-make install
+docker pull 
 ```
-
-This will download the GRCh38 reference genome, place it in the `ref` directory, and index it.
 
 ## Usage
 
-To perform a protein-level reverse annotation, run the `transvar` target, passing the protein variant (p.change) in HGVS format as input.
+**Step 1** : Run the [Illumina/Gauchian](https://github.com/Illumina/Gauchian) tool to obtain the `.tsv` and `.json` output.
 
-For example:
+**Step 2** : Use the `.tsv` ouput file from the previous step as an input to `gauchian_enrich` utility.
 
 ```bash
-make transvar VAR=DHODH:p.G152R
+gauchian_enrich <input.tsv> <output.tsv>
 ```
 
 ```bash
-make transvar VAR=NM_006218.2:p.E545K
+gauchian_enrich example/gauchian.output.tsv example/gauchian.enriched.output.tsv 
 ```
 
 ## Example
 
 ### Input
 
-```bash
-make transvar VAR=DHODH:p.G152R
-```
+| Sample           | is_biallelic(GBAP1-like_variant_exon9-11) | is_carrier(GBAP1-like_variant_exon9-11) | CN(GBA+GBAP1) | deletion_breakpoint_in_GBA | GBAP1-like_variant_exon9-11 | other_unphased_variants |
+|-------------------|------------------------------------------|------------------------------------------|---------------|-----------------------------|-----------------------------|--------------------------|
+| NA20815.final     | FALSE                                    | TRUE                                     | 4             | N/A                         | L483P/
 
 ### Output
 
-| input         | transcript                      | gene  | strand | coordinates(gDNA/cDNA/protein)      | region                 | info                                                                                                                                                                                                                                                                                       | CHROM | POS      | REF | ALT |
-|---------------|---------------------------------|-------|--------|-------------------------------------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------|----------|-----|-----|
-| DHODH:p.G152R | NM_001361.4 (protein_coding)    | DHODH | +      | chr16:g.72017043G>A/c.454G>A/p.G152R | inside_[cds_in_exon_4] | CSQN=Missense;reference_codon=GGG;candidate_codons=AGG,AGA,CGA,CGC,CGG,CGT;candidate_snv_variants=chr16:g.72017043G>C;candidate_mnv_variants=chr16:g.72017043_72017045delGGGinsAGA,chr16:g.72017043_72017045delGGGinsCGA,chr16:g.72017043_72017045delGGGinsCGC,chr16:g.72017043_72017045delGGGinsCGT;dbxref=GeneID:1723,HGNC:HGNC:2867,MIM:126064;aliases=NP_001352;source=RefSeq | chr16 | 72017043 | G   | A   |
-
-## Cleaning up
-
-To remove the downloaded reference files, run:
-
-```bash
-make clean
-```
+| Sample         | is_biallelic(GBAP1-like_variant_exon9-11) | is_carrier(GBAP1-like_variant_exon9-11) | CN(GBA+GBAP1) | deletion_breakpoint_in_GBA | GBAP1-like_variant_exon9-11 | other_unphased_variants | input      | transcript                    | gene | strand | coordinates(gDNA/cDNA/protein)                          | region                   | info                                                                                                                                                                                                                                                                                                                      | CHROM | POS       | REF | ALT |
+|----------------|--------------------------------------------|------------------------------------------|----------------|-----------------------------|------------------------------|--------------------------|------------|----------------------------------|------|--------|---------------------------------------------------------|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|------------|-----|-----|
+| NA20815.final  | FALSE                                      | TRUE                                     | 4              | N/A                         | L483P/                       | None                     | GBA:L483P | NM_001005742.2 (protein_coding) | GBA  | -      | chr1:g.155235252A>G/c.1448T>C/p.L483P                  | inside_[cds_in_exon_11] | CSQN=Missense;reference_codon=CTG;candidate_codons=CCT,CCG,CCA,CCC;candidate_mnv_variants=chr1:g.155235251_155235252delCAinsAG,chr1:g.155235251_155235252delCAinsTG,chr1:g.155235251_155235252delCAinsGG;dbxref=GeneID:2629,HGNC:HGNC:4177,MIM:606463;aliases=NP_001005742;source=RefSeq | chr1   | 155235252 | A   | G   |
 
 ## Reference
 
