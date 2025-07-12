@@ -53,6 +53,6 @@ To remove the downloaded reference files, run:
 make clean
 ```
 
-
 ## Reference
+
 Zhou, W., Chen, T., Chong, Z. et al. TransVar: a multilevel variant annotator for precision genomics. Nat Methods 12, 1002–1003 (2015). https://doi.org/10.1038/nmeth.3622
