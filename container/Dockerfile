@@ -1,6 +1,8 @@
 FROM zhouwanding/transvar:2.5.9
 
-RUN apt-get update && apt-get install -y cpanminus && \
+RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list && \
+    sed -i 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list && \
+    apt-get update && apt-get install -y cpanminus && \
     cpanm --notest Parallel::ForkManager
 
 RUN pip install --upgrade pip && \
@@ -11,7 +13,7 @@ RUN mkdir /ref && \
     gunzip /ref/hg38.fa.gz && \
     samtools faidx /ref/hg38.fa
 
-COPY ./bin/gauchian_enrich.pl /usr/local/bin/gauchian_enrich
+COPY ./bin/gauchian_enrich /usr/local/bin/gauchian_enrich
 
 RUN chmod +x /usr/local/bin/gauchian_enrich
 
