@@ -12,7 +12,7 @@ use constant VERSION => "1.0.0";
 my $nprocs = `grep -c ^processor /proc/cpuinfo`;
 chomp($nprocs);
 
-if (!$nprocs) { $nprocs = 10; }
+if (!$nprocs) { $nprocs = 2; }
 
 my $max_procs = int($nprocs * 0.75);
 my $pm = Parallel::ForkManager->new($max_procs);
