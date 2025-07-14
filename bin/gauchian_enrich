@@ -6,6 +6,8 @@ use File::Basename;
 use Cwd 'abs_path';
 use Data::Dumper;
 use Parallel::ForkManager;
+use Getopt::Long qw(:config no_ignore_case);
+use constant VERSION => "1.0.0";
 
 my $nprocs = `grep -c ^processor /proc/cpuinfo`;
 chomp($nprocs);
@@ -14,9 +16,39 @@ if (!$nprocs) { $nprocs = 10; }
 
 my $max_procs = int($nprocs * 0.75);
 my $pm = Parallel::ForkManager->new($max_procs);
+my $help = 0;
+my $version = 0;
+my $gauchian_tsv;
+my $annotated_tsv;
 
-my $gauchian_tsv = $ARGV[0];
-my $annotated_tsv = $ARGV[1];
+GetOptions ("i|input=s" => \$gauchian_tsv,
+			"o|output=s"   => \$annotated_tsv,
+			"h|help"  => \$help,
+            "v|version" => \$version,
+			) 
+			or die ("Invalid arguments");
+
+if ($version) {
+    print "Gauchian-Enrich Version: v" . VERSION . "\n";
+    exit;
+}
+
+if ($help) {
+    print_help();
+	exit;
+}
+
+if (!defined($gauchian_tsv) || $gauchian_tsv eq "") {
+    print "Error: Required input file (--input or -i) is missing.\n\n";
+    print_help();
+    exit;
+}
+
+if (!defined($annotated_tsv) || $annotated_tsv eq "") {
+    my $input_filename = basename($gauchian_tsv);
+    $input_filename =~ s/\.[^.]+$//;
+    $annotated_tsv = $input_filename . ".annotated.tsv";
+}
 
 my $GBAP1_like_variant_exon9_11 = "GBAP1-like_variant_exon9-11";
 my $other_unphased_variants_col = "other_unphased_variants";
@@ -24,13 +56,6 @@ my $other_unphased_variants_col = "other_unphased_variants";
 my %header_map;
 my @gauchian_rec;
 my %var_ann;
-
-my $input_filename = basename($gauchian_tsv);
-$input_filename =~ s/\.[^.]+$//;
-
-if (!defined($annotated_tsv) || $annotated_tsv eq "") {
-    $annotated_tsv = $input_filename.".annotated.tsv";
-}
 
 open(TSV,"$gauchian_tsv") or die "can't open the tsv input $gauchian_tsv\n";
 my $header = <TSV>; chomp $header;
@@ -70,4 +95,11 @@ sub rev_annotate {
     for(my $i=1; $i<=$#rows;$i++){
         print OUT "$rec\t$rows[$i]\n";
     }
+}
+
+sub print_help {
+    print("### Gauchian Enrich v". VERSION ." ###\n\nUsage info:\n");
+    print("perl gauchian_enrich --input or -i <gauchian_tsv> [--output or -o <output_file_with_path>]\n\n");
+    print("Example:\n");
+    print("perl gauchian_enrich --input example/gauchian.output.tsv --output example/gauchian.enriched.output.tsv\n");
 }
