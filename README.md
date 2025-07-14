@@ -23,6 +23,10 @@ docker pull ghcr.io/maurya-anand/gauchian-enrich
 - `--help` or `-h`: Display usage instructions.
 - `--version` or `-v`: Display the version of the `gauchian_enrich` tool.
 
+>[!Note]
+> The `gauchian_enrich` utility performs reverse annotation using the `transvar` tool and the `hg38` reference genome.
+> The reverse annotation process relies on the `hg38` reference genome file (`/ref/hg38.fa`). The Docker image for `gauchian_enrich` comes preconfigured with the `hg38` reference genome, eliminating the need for users to download or configure the reference genome manually.
+
 ### Example usage
 
 To display usage instructions:
