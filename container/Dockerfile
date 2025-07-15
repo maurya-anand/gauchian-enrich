@@ -17,4 +17,6 @@ COPY ./bin/gauchian_enrich /usr/local/bin/gauchian_enrich
 
 RUN chmod +x /usr/local/bin/gauchian_enrich
 
+RUN transvar config -k reference -v /ref/hg38.fa --refversion hg38
+
 ENV PATH="/usr/local/bin:$PATH"
