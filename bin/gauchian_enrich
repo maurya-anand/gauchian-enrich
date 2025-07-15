@@ -50,6 +50,13 @@ if (!defined($annotated_tsv) || $annotated_tsv eq "") {
     $annotated_tsv = $input_filename . ".annotated.tsv";
 }
 
+my $transvar_path = `which transvar`;
+chomp($transvar_path);
+
+if (!$transvar_path || !-x $transvar_path) {
+    die "Error: 'transvar' executable not found in PATH. Please install 'transvar' or add it to your PATH.\n";
+}
+
 my $GBAP1_like_variant_exon9_11 = "GBAP1-like_variant_exon9-11";
 my $other_unphased_variants_col = "other_unphased_variants";
 
@@ -89,7 +96,7 @@ print "Output written to $absolute_path\n";
 
 sub rev_annotate {
     my ($var,$rec) = (@_);
-    my $comm = `transvar panno -i GBA:$var --refversion hg38 --refseq --gseq --longest --reference /ref/hg38.fa`;
+    my $comm = `$transvar_path panno -i GBA:$var --refversion hg38 --refseq --gseq --longest`;
     chomp $comm;
     my @rows = split("\n",$comm);
     for(my $i=1; $i<=$#rows;$i++){
