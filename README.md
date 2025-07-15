@@ -2,12 +2,31 @@
 
 This repository contains a command-line utility to annotate the `.tsv` file output from [Illumina/Gauchian](https://github.com/Illumina/Gauchian) tool.
 
-## Setup
+## Setup (recommended)
 
 To use the `gauchian_enrich` utility, ensure Docker is installed on your system. Then, pull the Docker image:
 
 ```bash
 docker pull ghcr.io/maurya-anand/gauchian-enrich
+```
+
+## Manual setup
+
+If you prefer to install and configure the `gauchian_enrich` utility locally without using Docker, you can use the provided `Makefile`. This will ensure all dependencies are installed and the required configuration files are set up.
+
+### Steps for Manual Installation
+
+1. Ensure the following tools are installed on your system:
+   - `samtools`
+   - `wget`
+   - `gunzip`
+   - `pip` or `pip3`
+   - Perl module `Parallel::ForkManager`
+
+2. Run the following command to install and configure the utility:
+
+```bash
+make install
 ```
 
 ## Usage
@@ -25,7 +44,7 @@ docker pull ghcr.io/maurya-anand/gauchian-enrich
 
 >[!Note]
 > The `gauchian_enrich` utility performs reverse annotation using the `transvar` tool and the `hg38` reference genome.
-> The reverse annotation process relies on the `hg38` reference genome file (`/ref/hg38.fa`). The Docker image for `gauchian_enrich` comes preconfigured with the `hg38` reference genome, eliminating the need for users to download or configure the reference genome manually.
+> The reverse annotation process relies on the `hg38` reference genome file (`/ref/hg38.fa`). The Docker image for `gauchian_enrich` comes preconfigured with `transvar` and the `hg38` reference genome, eliminating the need for users to download or configure the reference genome manually.
 
 ### Example usage
 
@@ -39,9 +58,9 @@ To execute the tool using the given example data:
 
 ```bash
 docker run -u $(id -u):$(id -g) -it \
-    -v ${PWD}/test:/test \
+    -v ${PWD}/example:/example \
     ghcr.io/maurya-anand/gauchian-enrich \
-    gauchian_enrich -i /test/test.gauchian.tsv -o /test/test.gauchian.annotated.tsv
+    gauchian_enrich -i /example/test.gauchian.tsv -o /example/test.gauchian.annotated.tsv
 ```
 
 ## Example data
