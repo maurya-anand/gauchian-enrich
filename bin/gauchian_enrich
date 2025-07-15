@@ -106,7 +106,7 @@ sub rev_annotate {
 
 sub print_help {
     print("### Gauchian Enrich v". VERSION ." ###\n\nUsage info:\n");
-    print("perl gauchian_enrich --input or -i <gauchian_tsv> [--output or -o <output_file_with_path>]\n\n");
+    print("gauchian_enrich --input or -i <gauchian_tsv> [--output or -o <output_file_with_path>]\n\n");
     print("Example:\n");
-    print("perl gauchian_enrich --input example/gauchian.output.tsv --output example/gauchian.enriched.output.tsv\n");
+    print("gauchian_enrich --input example/gauchian.output.tsv --output example/gauchian.enriched.output.tsv\n");
 }
