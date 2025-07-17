@@ -61,7 +61,6 @@ my $GBAP1_like_variant_exon9_11 = "GBAP1-like_variant_exon9-11";
 my $other_unphased_variants_col = "other_unphased_variants";
 
 my %header_map;
-my @gauchian_rec;
 my %var_ann;
 
 open(TSV,"$gauchian_tsv") or die "can't open the tsv input $gauchian_tsv\n";
@@ -77,11 +76,14 @@ print OUT "$header\tinput\ttranscript\tgene\tstrand\tcoordinates(gDNA/cDNA/prote
 while(my $rec=<TSV>){
     chomp $rec;
     my @tmp = split("\t",$rec);
-    my $all_vars = "$tmp[$header_map{$GBAP1_like_variant_exon9_11}],$tmp[$header_map{$other_unphased_variants_col}]";
-    my @all_vars_tmp = split(/[\,\/]/,$all_vars);
+    my @other_unphased_variants_aa = $tmp[$header_map{$other_unphased_variants_col}] =~ /\((p\.[^)]+)\)/g;
+    my @all_vars_tmp = split(/[\,\/]/,$tmp[$header_map{$GBAP1_like_variant_exon9_11}]);
+    push @all_vars_tmp, @other_unphased_variants_aa;
     my %seen;
     my @uniq_vars = grep { $_ ne 'None' && !$seen{$_}++ } @all_vars_tmp;
-    push @gauchian_rec, $rec;
+    if(!@uniq_vars){
+        print OUT "$rec\t" . ("\t" x 10) . "\n";
+    }
     foreach my $p_change (@uniq_vars) {
         $pm->start and next;
         rev_annotate($p_change,$rec);
@@ -99,8 +101,13 @@ sub rev_annotate {
     my $comm = `$transvar_path panno -i GBA:$var --refversion hg38 --refseq --gseq --longest`;
     chomp $comm;
     my @rows = split("\n",$comm);
-    for(my $i=1; $i<=$#rows;$i++){
-        print OUT "$rec\t$rows[$i]\n";
+    if (scalar(@rows) > 1) {
+        for (my $i = 1; $i <= $#rows; $i++) {
+            print OUT "$rec\t$rows[$i]\n";
+        }
+    }
+    else {
+        print OUT "$rec\t" . ("\t" x 10) . "\n";
     }
 }
 
