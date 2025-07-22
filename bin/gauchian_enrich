@@ -20,6 +20,7 @@ my $help = 0;
 my $version = 0;
 my $gauchian_tsv;
 my $annotated_tsv;
+my $sample_count_tsv;
 
 GetOptions ("i|input=s" => \$gauchian_tsv,
 			"o|output=s"   => \$annotated_tsv,
@@ -44,11 +45,14 @@ if (!defined($gauchian_tsv) || $gauchian_tsv eq "") {
     exit;
 }
 
+my $input_filename = basename($gauchian_tsv);
+$input_filename =~ s/\.[^.]+$//;
 if (!defined($annotated_tsv) || $annotated_tsv eq "") {
-    my $input_filename = basename($gauchian_tsv);
-    $input_filename =~ s/\.[^.]+$//;
     $annotated_tsv = $input_filename . ".annotated.tsv";
 }
+
+$sample_count_tsv = $annotated_tsv;
+$sample_count_tsv =~ s/\.tsv$/.counts.tsv/;
 
 my $transvar_path = `which transvar`;
 chomp($transvar_path);
@@ -92,9 +96,9 @@ while(my $rec=<TSV>){
 }
 $pm->wait_all_children;
 
-my $absolute_path = abs_path($annotated_tsv);
-
-print "Output written to $absolute_path\n";
+my $absolute_path_tsv = abs_path($annotated_tsv);
+print_count($absolute_path_tsv,$sample_count_tsv);
+print "Output written to\n$absolute_path_tsv\n$sample_count_tsv\n";
 
 sub rev_annotate {
     my ($var,$rec) = (@_);
@@ -117,4 +121,36 @@ sub print_help {
     print("gauchian_enrich --input or -i <gauchian_tsv> [--output or -o <output_file_with_path>]\n\n");
     print("Example:\n");
     print("gauchian_enrich --input example/gauchian.output.tsv --output example/gauchian.enriched.output.tsv\n");
+}
+
+sub print_count {
+    my ($ann,$countfile) = (@_);
+    my %variant_map;
+    open(ANN,"$ann") or die "can't open the annotation table\n";
+    my $ann_header=<ANN>; chomp $ann_header;
+    while(my $rec=<ANN>){
+        my @tmp = split("\t",$rec);
+        my @coordinates;
+        if($tmp[12]){
+            @coordinates = split("/",$tmp[12]);
+        }
+        if ($coordinates[-1]){
+            push @{$variant_map{$coordinates[-1]}},$tmp[0]; 
+        }
+        if($tmp[5]=~ m/RecNciI/){
+            push @{$variant_map{$tmp[5]}},$tmp[0]; 
+        }
+        if ( $tmp[3] =~ /^\d+$/ && $tmp[3] != 4 ) {
+            my $cn_key  = "CN(GBA+GBAP1) = ".$tmp[3];
+            push @{$variant_map{$cn_key}},$tmp[0]; 
+        }
+    }
+    open(CN,">$countfile") or die "can't write to $countfile";
+    print CN "Variant\tSample_count\tSample\n";
+    foreach my $var(sort keys %variant_map){
+        my @ids = @{$variant_map{$var}};
+        my %seen;
+        my @uniq_vars = grep { $_ ne 'None' && !$seen{$_}++ } @ids;
+        print CN "$var\t".scalar(@uniq_vars)."\t".join(",",sort @uniq_vars)."\n";
+    }
 }
