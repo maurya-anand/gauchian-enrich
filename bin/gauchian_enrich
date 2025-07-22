@@ -98,6 +98,7 @@ print "Output written to $absolute_path\n";
 
 sub rev_annotate {
     my ($var,$rec) = (@_);
+    $var=~ s/Ter$/\*/;
     my $comm = `$transvar_path panno -i GBA:$var --refversion hg38 --refseq --gseq --longest`;
     chomp $comm;
     my @rows = split("\n",$comm);
