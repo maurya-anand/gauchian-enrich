@@ -1,0 +1,28 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Gauchian Enrich
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Anand
+    family-names: Maurya
+    email: anandmaurya@hotmail.com
+    name-particle: Anand
+    orcid: 'https://orcid.org/0000-0002-6204-2164'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.16366908
+    description: Zenodo
+repository-code: 'https://github.com/maurya-anand/gauchian-enrich'
+url: 'https://github.com/maurya-anand/gauchian-enrich'
+abstract: >-
+  A variant annotator for GBA variants called by Illumina
+  Gauchian tool.
+keywords:
+  - GBA
+  - Variant Annotation
+license: MIT

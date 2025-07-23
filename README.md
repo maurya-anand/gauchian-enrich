@@ -1,5 +1,7 @@
 # Gauchian-enrich
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16366908.svg)](https://doi.org/10.5281/zenodo.16366908)
+
 This repository contains a command-line utility to annotate the `.tsv` file output from [Illumina/Gauchian](https://github.com/Illumina/Gauchian) tool.
 
 ## Setup (recommended)
