@@ -1,7 +1,7 @@
 # Gauchian-enrich
 
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.16366908-blue?style=flat-square)](https://doi.org/10.5281/zenodo.16366908)&nbsp;&nbsp;
-[![Open](https://img.shields.io/badge/RRID-SCR_027296-blue?style=flat-square)](https://scicrunch.org/resolver/RRID:SCR_027296)
+[![Gauchian-enrich (RRID:SCR_027296)](https://img.shields.io/badge/RRID-Gauchian--enrich%20(RRID%3ASCR_027296)-blue?style=flat-square)](https://scicrunch.org/resolver/RRID:SCR_027296)
 
 A variant annotation toolkit for the GBA gene variants detected from the [Illumina/Gauchian](https://github.com/Illumina/Gauchian) tool.
 

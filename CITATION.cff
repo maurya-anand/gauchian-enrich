@@ -18,7 +18,7 @@ identifiers:
     value: 10.5281/zenodo.16366908
     description: Zenodo
   - type: other
-    value: RRID:SCR_027296
+    value: Gauchian-enrich (RRID:SCR_027296)
     description: SciCrunch RRID
 repository-code: 'https://github.com/maurya-anand/gauchian-enrich'
 url: 'https://github.com/maurya-anand/gauchian-enrich'
