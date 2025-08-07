@@ -95,6 +95,6 @@ docker run -u $(id -u):$(id -g) -it \
 
 If you use this tool for your analysis, please cite the `gauchian-enrich` as follows:
 
-> Anand Maurya. (2025). maurya-anand/gauchian-enrich: v1.0.0 (v1.0.0). Zenodo. [https://doi.org/10.5281/zenodo.16366908](https://doi.org/10.5281/zenodo.16366908)
+> SciCrunch ID: [Gauchian-enrich (RRID:SCR_027296)](https://scicrunch.org/resolver/RRID:SCR_027296)
 >
-> SciCrunch ID: [RRID:SCR_027296](https://scicrunch.org/resolver/RRID:SCR_027296)
+> Anand Maurya. (2025). maurya-anand/gauchian-enrich: v1.0.0 (v1.0.0). Zenodo. [https://doi.org/10.5281/zenodo.16366908](https://doi.org/10.5281/zenodo.16366908)
