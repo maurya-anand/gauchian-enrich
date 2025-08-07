@@ -2,7 +2,13 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16366908.svg)](https://doi.org/10.5281/zenodo.16366908)
 
-This repository contains a command-line utility to annotate the `.tsv` file output from [Illumina/Gauchian](https://github.com/Illumina/Gauchian) tool.
+A variant annotation toolkit for the GBA gene variants detected from the [Illumina/Gauchian](https://github.com/Illumina/Gauchian) tool.
+
+## Key Features
+
+- **Transforms basic variant calls**: Converts raw output from Illumina Gauchian into richly annotated, interpretation-ready datasets.  It provides detailed biological context for genetic variants, including transcript information, precise genomic coordinates (gDNA/cDNA/protein), and a clear assessment of their functional impact.
+- **Detailed Functional Analysis**: Goes beyond basic variant calls to classify mutations (e.g., missense) and suggests potential alternative causes, such as multiple nucleotide variants (MNVs), that might lead to the same protein change.
+- **Rich Output Format**: The tool generates a highly detailed, tabular output designed for seamless integration into existing bioinformatics pipelines. The output includes essential fields like `CHROM`, `POS`, `REF`, and `ALT`, making it easily parseable and ideal for downstream analysis.
 
 ## Setup (recommended)
 
