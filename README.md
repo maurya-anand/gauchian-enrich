@@ -1,6 +1,7 @@
 # Gauchian-enrich
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16366908.svg)](https://doi.org/10.5281/zenodo.16366908)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.16366908-blue?style=flat-square)](https://doi.org/10.5281/zenodo.16366908)&nbsp;&nbsp;
+[![Open](https://img.shields.io/badge/RRID-SCR_027296-blue?style=flat-square)](https://scicrunch.org/resolver/RRID:SCR_027296)
 
 A variant annotation toolkit for the GBA gene variants detected from the [Illumina/Gauchian](https://github.com/Illumina/Gauchian) tool.
 
@@ -89,3 +90,11 @@ docker run -u $(id -u):$(id -g) -it \
 
 - Toffoli, M., Chen, X., Sedlazeck, F.J. et al. Comprehensive short and long read sequencing analysis for the Gaucher and Parkinson’s disease-associated GBA gene. Commun Biol 5, 670 (2022). [https://doi.org/10.1038/s42003-022-03610-7](https://doi.org/10.1038/s42003-022-03610-7)
 - Zhou, W., Chen, T., Chong, Z. et al. TransVar: a multilevel variant annotator for precision genomics. Nat Methods 12, 1002–1003 (2015). [https://doi.org/10.1038/nmeth.3622](https://doi.org/10.1038/nmeth.3622)
+
+## Citations
+
+If you use this tool for your analysis, please cite the `gauchian-enrich` as follows:
+
+> Anand Maurya. (2025). maurya-anand/gauchian-enrich: v1.0.0 (v1.0.0). Zenodo. [https://doi.org/10.5281/zenodo.16366908](https://doi.org/10.5281/zenodo.16366908)
+>
+> SciCrunch ID: [RRID:SCR_027296](https://scicrunch.org/resolver/RRID:SCR_027296)
